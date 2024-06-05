@@ -1,0 +1,25 @@
+import nmap
+
+def scan(target):
+    nm = nmap.PortScanner()
+    nm.scan(hosts=target, arguments='-sS -T4 -A -v')
+
+    for host in nm.all_hosts():
+        print('----------------------------------------------------')
+        print(f'Host: {host} ({nm[host].hostname()})')
+        print(f'State: {nm[host].state()}')
+
+        for proto in nm[host].all_protocols():
+            print('----------')
+            print(f'Protocol: {proto}')
+
+            ports = nm[host][proto].keys()
+            sorted_ports = sorted(ports)
+            for port in sorted_ports:
+                print(f'Port: {port} \tState: {nm[host][proto][port]["state"]}')
+                if "service" in nm[host][proto][port]:
+                    print(f'Service: {nm[host][proto][port]["name"]} ({nm[host][proto][port]["product"]})')
+
+if __name__ == "__main__":
+    target = input("Enter target IP address or range: ")
+    scan(target)
