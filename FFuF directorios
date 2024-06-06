@@ -1,0 +1,22 @@
+import subprocess
+
+def scan_directories(target_url, wordlist):
+    # Comando para ejecutar FFuF con la lista de palabras
+    command = f"ffuf -w {wordlist} -u {target_url}/FUZZ"
+    
+    # Ejecutar el comando y capturar la salida
+    try:
+        output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
+        print(output.decode())
+    except subprocess.CalledProcessError as e:
+        print(f"Error al ejecutar el comando: {e.output.decode()}")
+
+if __name__ == "__main__":
+    # URL del objetivo a escanear
+    target_url = "http://example.com"
+    
+    # Lista de palabras para probar
+    wordlist = "directories.txt"  # Cambia el nombre del archivo según tu lista de palabras
+    
+    # Llamar a la función para escanear directorios
+    scan_directories(target_url, wordlist)
