@@ -1,0 +1,23 @@
+import subprocess
+
+def ejecutar_sqlmap(url):
+    # Comando SQLmap para escanear una URL en busca de vulnerabilidades SQL
+    comando = ["sqlmap", "-u", url, "--batch"]
+
+    try:
+        # Ejecutar el comando SQLmap usando subprocess
+        resultado = subprocess.run(comando, capture_output=True, text=True, check=True)
+
+        # Imprimir la salida de SQLmap
+        print(resultado.stdout)
+
+    except subprocess.CalledProcessError as error:
+        # Manejar errores si el comando SQLmap falla
+        print("Error al ejecutar SQLmap:", error)
+
+if __name__ == "__main__":
+    # URL del sitio web que quieres escanear
+    url_a_escanear = "http://ejemplo.com/pagina-vulnerable.php"
+
+    # Llamar a la función para ejecutar SQLmap en la URL especificada
+    ejecutar_sqlmap(url_a_escanear)
