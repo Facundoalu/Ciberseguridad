@@ -1,0 +1,21 @@
+import pyshark
+
+def leer_paquetes(nombre_archivo):
+    try:
+        # Abre el archivo pcap
+        cap = pyshark.FileCapture(nombre_archivo)
+
+        # Itera sobre cada paquete en el archivo
+        for paquete in cap:
+            # Imprime información básica sobre cada paquete
+            print(f"Protocolo: {paquete.protocol} - Fuente: {paquete.ip.src} - Destino: {paquete.ip.dst}")
+            # Puedes acceder a otros campos de cada paquete según sea necesario
+            # Por ejemplo: paquete.tcp.port, paquete.http.request_uri, etc.
+
+    except Exception as e:
+        print(f"Error al leer el archivo pcap: {e}")
+
+# Ejemplo de uso
+if __name__ == "__main__":
+    nombre_archivo = "archivo.pcap"  # Reemplaza esto con el nombre de tu archivo pcap
+    leer_paquetes(nombre_archivo)
