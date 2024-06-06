@@ -1,0 +1,22 @@
+import subprocess
+
+def crack_passwords(password_file, wordlist):
+    # Comando para ejecutar John the Ripper con el archivo de contraseñas y la lista de palabras
+    command = f"john --wordlist={wordlist} {password_file}"
+    
+    # Ejecutar el comando y capturar la salida
+    try:
+        output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
+        print(output.decode())
+    except subprocess.CalledProcessError as e:
+        print(f"Error al ejecutar el comando: {e.output.decode()}")
+
+if __name__ == "__main__":
+    # Archivo de contraseñas a crackear
+    password_file = "passwords.txt"
+    
+    # Lista de palabras para probar
+    wordlist = "wordlist.txt"
+    
+    # Llamar a la función para crackear contraseñas
+    crack_passwords(password_file, wordlist)
