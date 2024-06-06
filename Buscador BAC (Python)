@@ -1,0 +1,43 @@
+import requests
+
+# Función para enviar una solicitud HTTP GET a una URL específica
+def enviar_solicitud_get(url):
+    try:
+        # Enviar la solicitud GET
+        respuesta = requests.get(url)
+
+        # Devolver el código de estado de la respuesta
+        return respuesta.status_code
+
+    except requests.RequestException as e:
+        # Manejar errores de solicitud
+        print("Error al enviar solicitud:", e)
+        return None
+
+# Función para probar vulnerabilidades de acceso no autorizado
+def probar_broken_access_control(url):
+    # Intentar acceder a recursos sin autenticación o autorización
+    # Aquí puedes agregar diferentes endpoints de la aplicación web que podrían ser vulnerables
+    endpoints_vulnerables = [
+        "/admin",
+        "/profile",
+        "/admin_panel",
+        # Agrega más según sea necesario
+    ]
+
+    for endpoint in endpoints_vulnerables:
+        # Comprobar si se puede acceder al endpoint sin autenticación
+        url_endpoint = url + endpoint
+        codigo_estado = enviar_solicitud_get(url_endpoint)
+
+        if codigo_estado == 200:
+            print(f"Vulnerabilidad de acceso no autorizado encontrada en: {url_endpoint}")
+        else:
+            print(f"No se encontraron vulnerabilidades en: {url_endpoint}")
+
+if __name__ == "__main__":
+    # URL de la aplicación web que quieres probar
+    url_aplicacion_web = "http://ejemplo.com"
+
+    # Llamar a la función para probar vulnerabilidades de acceso no autorizado
+    probar_broken_access_control(url_aplicacion_web)
