@@ -1,0 +1,25 @@
+import requests
+
+def escanear_idor(url_base, endpoint, identificador):
+    try:
+        # Intenta acceder al recurso utilizando el identificador proporcionado
+        url = f"{url_base}/{endpoint}/{identificador}"
+        response = requests.get(url)
+
+        # Verifica si la solicitud fue exitosa
+        if response.status_code == 200:
+            print(f"Vulnerable a IDOR: {url}")
+        else:
+            print(f"No vulnerable a IDOR: {url}")
+
+    except Exception as e:
+        print(f"Error al escanear IDOR: {e}")
+
+# Ejemplo de uso
+if __name__ == "__main__":
+    url_base = "http://example.com/api"  # Reemplaza esto con la URL base de la API que deseas escanear
+    endpoint = "user"  # Reemplaza esto con el endpoint que deseas escanear
+    identificadores = [1, 2, 3]  # Lista de identificadores válidos a probar
+
+    for identificador in identificadores:
+        escanear_idor(url_base, endpoint, identificador)
